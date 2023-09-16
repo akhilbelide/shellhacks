@@ -50,29 +50,40 @@ const App = () => {
 
   return (
     <div className='dropdown-search-container'>
-      <div className='dropdown'>
-        {errorMessage && <p className='error-message'>{errorMessage}</p>}
-        <label>Select Source:</label>
-        <select value={source} onChange={handleSourceChange}>
-          <option value="">Select a source</option>
-          <option value="Hyderabad">Hyderabad</option>
-          <option value="Warangal">Warangal</option>
-          <option value="Tirupati">Tirupati</option>
-        </select>
+      {errorMessage && <p className='error-message'>{errorMessage}</p>}
+      <div className='dropdown'>     
+        <div className='dropdown-label'>
+          <p>Select Source:</p>
+        </div>
+        <div className='dropdown-options'>
+          <select value={source} onChange={handleSourceChange}>
+            <option value="">Select a source</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Warangal">Warangal</option>
+            <option value="Tirupati">Tirupati</option>
+          </select>
+        </div>
+        
       </div>
       <div className='dropdown'>
-        <label>Select Destination:</label>
-        <select value={destination} onChange={handleDestChange}>
-          <option value="">Select a destination</option>
-          <option value="Hyderabad">Hyderabad</option>
-          <option value="Warangal">Warangal</option>
-          <option value="Tirupati">Tirupati</option>
-        </select>
+        <div className='dropdown-label'>
+          <p>Select Destination:</p>
+        </div>
+        
+        <div className='dropdown-options'>
+          <select value={source} onChange={handleSourceChange}>
+            <option value="">Select a source</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Warangal">Warangal</option>
+            <option value="Tirupati">Tirupati</option>
+          </select>
+        </div>
       </div>
       <div className='search-button'>
         <button onClick={handleSearchClick}>Search</button>
       </div>
     </div>
+
   );
 };
 

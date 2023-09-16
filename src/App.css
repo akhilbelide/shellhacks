@@ -11,7 +11,17 @@
 }
 
 .dropdown {
+  background-color: aqua;
   margin-right: 10px; /* Add some spacing between dropdowns and button */
+}
+
+.dropdown-label{
+  background-color: aquamarine;
+  
+}
+
+.dropdown-options{
+  background-color: black;
 }
 
 .search-button {
