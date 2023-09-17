@@ -11,7 +11,7 @@ const App = () => {
   const [apiData, setApiData] = useState([]); // Store API response data
   const [retrieve, setRetrieve] = useState(false)
   const [options, setOptions] = useState([]);
-  
+
   useEffect(() => {
     fetch('./City.txt') 
       .then((response) => {
@@ -72,6 +72,18 @@ const App = () => {
       } 
     };
 
+    function minutesToTime(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+    
+      const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+      const formattedMinutes = remainingMinutes < 10 ? `0${remainingMinutes}` : `${remainingMinutes}`;
+    
+      const timeString = `${formattedHours}:${formattedMinutes}`;
+    
+      return timeString;
+    }
+
   return (
     <div>
     <header className='title-header'>
@@ -119,14 +131,22 @@ const App = () => {
                 <p className='box heade'>Departure Time</p>  
                 <p className='box heade'>Arrival Time</p>
           </div>
-            {item.map((i) => (
+            {item.map((i) => {
+               const st_hours = Math.floor(i.start_time / 60);
+               const st_minutes = i.start_time % 60;
+               const st_formattedTime = `${st_hours}:${st_minutes < 10 ? `0${st_minutes}` : st_minutes}`;
+
+               const et_hours = Math.floor(i.end_time / 60);
+               const et_minutes = i.end_time % 60;
+               const et_formattedTime = `${et_hours}:${et_minutes < 10 ? `0${et_minutes}` : et_minutes}`;
+              
               <div className='card-content'>
                 <p className='box'>{i.start_station}</p>  
                 <p className='box'>{i.end_station}</p>
-                <p className='box'>{i.start_time}</p>  
-                <p className='box'>{i.end_time}</p>
+                <p className='box'>{st_formattedTime}</p>  
+                <p className='box'>{et_formattedTime}</p>
               </div>
-            ))}
+          })}
         </div>
       ))): retrieve && <p> No trains available</p>}
     </div>
