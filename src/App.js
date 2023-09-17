@@ -54,14 +54,24 @@ const App = () => {
     }
     else{
       console.log('Call API');
+      console.log(source)
+      var s, d;
+      for(var i=0;i<options.length;i++){
+        if(options[i]==source)
+          s=i;
+        else if(options[i]==destination)
+          d=i;
+      }
+      console.log(s)
       axios.get('https://saisandeep001.pythonanywhere.com/travel/', {
           params: {
-            source: source,
-            dest: destination,
+            source: s,
+            dest: d,
           },
         })
           .then((res) => {
             setApiData(res.data);
+            console.log(res.data)
             if(res.data.length > 0)
               setRetrieve(true)
           })
@@ -131,7 +141,9 @@ const App = () => {
                 <p className='box heade'>Departure Time</p>  
                 <p className='box heade'>Arrival Time</p>
           </div>
+
             {item.map((i) => {
+        
                const st_hours = Math.floor(i.start_time / 60);
                const st_minutes = i.start_time % 60;
                const st_formattedTime = `${st_hours}:${st_minutes < 10 ? `0${st_minutes}` : st_minutes}`;
@@ -139,11 +151,12 @@ const App = () => {
                const et_hours = Math.floor(i.end_time / 60);
                const et_minutes = i.end_time % 60;
                const et_formattedTime = `${et_hours}:${et_minutes < 10 ? `0${et_minutes}` : et_minutes}`;
-              
-              <div className='card-content'>
+              return <div className='card-content'>
                 <p className='box'>{i.start_station}</p>  
                 <p className='box'>{i.end_station}</p>
-                <p className='box'>{st_formattedTime}</p>  
+                {/* <p className='box'>{i.start_time}</p>  
+                <p className='box'>{i.end_time}</p> */}
+                 <p className='box'>{st_formattedTime}</p>  
                 <p className='box'>{et_formattedTime}</p>
               </div>
           })}
