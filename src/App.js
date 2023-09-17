@@ -2,12 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from './components/Card'
 import './App.css'
+import './City.txt'
 
 const App = () => {
   const [source, setSource] = useState('');
   const [destination, setDestination] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [apiData, setApiData] = useState([]); // Store API response data
+  const [retrieve, setRetrieve] = useState(false)
+  const [options, setOptions] = useState([]);
+  
+  useEffect(() => {
+    fetch('./City.txt') 
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then((text) => {
+        const optionsArray = text.split('\n');
+        console.log(optionsArray)
+        setOptions(optionsArray);
+      })
+      .catch((error) => {
+        console.error('There was a problem fetching the options:', error);
+      });
+  }, []); 
 
   const handleSourceChange = (e) => {
     setSource(e.target.value);
@@ -20,8 +41,6 @@ const App = () => {
 
   const handleSearchClick = () => {
     setErrorMessage('');
-    console.log('Selected Source : ', source);
-    console.log('Selected Destination : ', destination);
     setSource(''); setDestination('');
 
     if(source==='' || destination===''){
@@ -41,10 +60,10 @@ const App = () => {
             dest: destination,
           },
         })
-          //.then((response) => response.json())
           .then((res) => {
             setApiData(res.data);
-            console.log(res.data)
+            if(res.data.length > 0)
+              setRetrieve(true)
           })
           .catch((error) => {
             console.error('API Error:', error);
@@ -55,22 +74,35 @@ const App = () => {
 
   return (
     <div>
+    <header className='title-header'>
+        TRAIN SCANNER
+    </header>
     <div className='dropdown-search-container'>
       <div className='dropdown'>     
-          <select className='classic' value={source} onChange={handleSourceChange}>
+          {/* <select className='classic' value={source} onChange={handleSourceChange}>
             <option value="">Select a source</option>
             <option value="Hyderabad">Hyderabad</option>
             <option value="Warangal">Warangal</option>
             <option value="Tirupati">Tirupati</option>
+          </select> */}
+          <select className='classic' value={source} onChange={handleSourceChange}>
+            <option value="">Select a source</option>
+            {options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
       </div>
       <div className='dropdown'>
-          <select className='classic' value={destination} onChange={handleDestChange}>
-            <option value="">Select a Destination</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Warangal">Warangal</option>
-            <option value="Tirupati">Tirupati</option>
-          </select>
+        <select className='classic' value={destination} onChange={handleDestChange}>
+          <option value="">Select a Destination</option>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <div className='search-button' onClick={handleSearchClick}>
         Search
@@ -96,7 +128,7 @@ const App = () => {
               </div>
             ))}
         </div>
-      ))): <p> </p>}
+      ))): retrieve && <p> No trains available</p>}
     </div>
     </div>
 
@@ -104,4 +136,3 @@ const App = () => {
 };
 
 export default App;
-

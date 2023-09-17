@@ -34,6 +34,7 @@ select{
     box-sizing: border-box;
     -webkit-appearance: none;
     -moz-appearance: none;
+    width: 300px
   
 }
 
@@ -164,4 +165,17 @@ select.classic:focus {
   background-color: skyblue;
   font-family:'Times New Roman', Times, serif;
   font-weight: bolder;
+}
+
+.title-header {
+  background-color: skyblue; /* Background color */
+  color: #FFFFFF; /* Text color */
+  padding: 20px; /* Spacing around the text */
+  text-align: center; /* Center-align the text */
+  font-size: 24px; /* Font size */
+  font-weight: bold; /* Font weight */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 2px; /* Letter spacing */
+  border-bottom: 2px solid blue; /* Bottom border */
+  margin-bottom: 20px;
 }
